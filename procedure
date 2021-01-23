@@ -1,0 +1,18 @@
+BEGIN TRAN
+DECLARE @Index smallint
+DECLARE @nextid smallint
+SET @nextid=1
+DECLARE job1 CURSOR FOR
+SELECT idnumbercolumnname FROM table order by idnumbercolumnname
+
+OPEN job1
+FETCH NEXT FROM job1 INTO @Index
+WHILE @@fetch_status = 0 
+BEGIN
+update table set idnumbercolumnname = @nextid  where idnumbercolumnname = @Index
+set @nextid = @nextid+1
+FETCH NEXT FROM job1 INTO @Index
+END
+CLOSE job1
+DEALLOCATE job1
+COMMIT TRAN
